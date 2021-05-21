@@ -2,6 +2,7 @@
 
 namespace Braintree;
 
+use Braintree\Traits\CanBeSerialized;
 use JsonSerializable;
 
 /**
@@ -13,6 +14,8 @@ use JsonSerializable;
  */
 abstract class Base implements JsonSerializable
 {
+    use CanBeSerialized;
+
     protected $_attributes = [];
 
     /**
@@ -75,33 +78,5 @@ abstract class Base implements JsonSerializable
     public function _set($key, $value)
     {
         $this->_attributes[$key] = $value;
-    }
-
-    /**
-     * Implementation of JsonSerializable
-     *
-     * @ignore
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return $this->_attributes;
-    }
-
-    /**
-     * Implementation of to an Array
-     *
-     * @ignore
-     * @return array
-     */
-    public function toArray()
-    {
-        return array_map(function ($value) {
-            if (!is_array($value)) {
-                return method_exists($value, 'toArray') ? $value->toArray() : $value;
-            } else {
-                return $value;
-            }
-        }, $this->_attributes);
     }
 }
