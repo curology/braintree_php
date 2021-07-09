@@ -30,8 +30,8 @@ trait CanBeSerialized
 
             if (is_array($value)) {
                 $subValues = [];
-                foreach ($value as $subValue) {
-                    $subValues[] = method_exists($subValue, 'toArray') ? $subValue->toArray() : $subValue;
+                foreach ($value as $subKey => $subValue) {
+                    $subValues[$subKey] = method_exists($subValue, 'toArray') ? $subValue->toArray() : $subValue;
                 }
 
                 return $subValues;
